@@ -27,11 +27,12 @@
                 </xacro:if>
                 <xacro:if value="${sim_ignition}">
                     <plugin>ign_ros2_control/IgnitionSystem</plugin>
-                </xacro:if>
-                <xacro:if value="${use_fake_hardware}">
-                    <plugin>mock_components/GenericSystem</plugin>
-                    <param name="fake_sensor_commands">${fake_sensor_commands}</param>
-                    <param name="state_following_offset">0.0</param>
+	    	</xacro:if>
+		<xacro:if value="${use_fake_hardware}">
+                    <plugin>topic_based_ros2_control/TopicBasedSystem</plugin>
+		    <param name="joint_commands_topic">/robotiq/robotiq_joint_commands</param>
+                    <param name="joint_states_topic">/mujoco_joint_states</param>
+                    <param name="trigger_joint_command_threshold">0.01</param>
                 </xacro:if>
                 <xacro:unless value="${use_fake_hardware or sim_ignition or sim_isaac}">
                     <plugin>robotiq_driver/RobotiqGripperHardwareInterface</plugin>
